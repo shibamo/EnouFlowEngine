@@ -171,14 +171,7 @@ namespace EnouFlowEngine
         #endregion
 
         #region  update request
-        reqInDb.isProcessed = true;
-        reqInDb.finishTime = DateTime.Now;
-        reqInDb.resultType = EnumFlowActionRequestResultType.success;
-        if (reqInDb.flowInstance == null || reqInDb.flowInstanceGuid == null)
-        {
-          reqInDb.flowInstance = flowInst;
-          reqInDb.flowInstanceGuid = flowInst.guid;
-        }
+        updateRequestToSuccess(reqInDb, flowInst);
         #endregion
 
         #region  save all to db

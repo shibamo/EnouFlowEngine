@@ -19,18 +19,19 @@ namespace EnouFlowEngine
     private static Logger logger = LogManager.GetCurrentClassLogger();
 
     private bool isBizTimeStampValid(DateTime bizTimeStamp, FlowAction req,
-      FlowInstance flowInst, EnouFlowInstanceContext db, out string failReason)
+      FlowInstance flowInst, out string failReason)
     {
       if (bizTimeStamp < flowInst.bizTimeStamp)
       {
         failReason = "bizTimeStamp expired, 业务时间戳已过期无效.";
 
-        var reqInDb = db.flowActionRequests.Find(req.flowActionRequestId);
-        reqInDb.isProcessed = true;
-        reqInDb.finishTime = DateTime.Now;
-        reqInDb.failReason = failReason;
+        //修改,根据函数名称,只检查,不更新数据库状态,由外部调用者自行更新
+        //var reqInDb = db.flowActionRequests.Find(req.flowActionRequestId);
+        //reqInDb.isProcessed = true;
+        //reqInDb.finishTime = DateTime.Now;
+        //reqInDb.failReason = failReason;
 
-        db.SaveChanges();
+        //db.SaveChanges();
         return false;
       }
 
@@ -104,6 +105,19 @@ namespace EnouFlowEngine
       });
 
       //db.SaveChanges();
+    }
+
+    private void updateRequestToSuccess(FlowActionRequest reqInDb, 
+      FlowInstance flowInst)
+    {
+      reqInDb.isProcessed = true;
+      reqInDb.finishTime = DateTime.Now;
+      reqInDb.resultType = EnumFlowActionRequestResultType.success;
+      if (reqInDb.flowInstance == null || reqInDb.flowInstanceGuid == null)
+      {
+        reqInDb.flowInstance = flowInst;
+        reqInDb.flowInstanceGuid = flowInst.guid;
+      }
     }
 
     private FlowInstance getFlowInstance(EnouFlowInstanceContext db, 

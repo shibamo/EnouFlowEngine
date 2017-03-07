@@ -42,12 +42,16 @@ namespace EnouFlowEngine
 
         db.flowInstances.Add(flowInst);
 
-        // 新建的流程需要回填对应的处理请求对象关于流程实例的信息
+        // 新建的流程需要回填对应的处理请求对象关于流程实例的信息, 由下面updateRequestToSuccess取代
         var reqInDb = getReqInDB(req.flowActionRequestId, db);
-        reqInDb.flowInstance = flowInst;
-        reqInDb.flowInstanceGuid = flowInst.guid;
-        updateReqProcessingResultInDB(reqInDb,
-          EnumFlowActionRequestResultType.success);
+        //reqInDb.flowInstance = flowInst;
+        //reqInDb.flowInstanceGuid = flowInst.guid;
+        //updateReqProcessingResultInDB(reqInDb,
+        //  EnumFlowActionRequestResultType.success);
+        #region  update request
+        updateRequestToSuccess(reqInDb, flowInst);
+        #endregion
+
 #warning TODO: Add FlowInstanceFriendlyLog & FlowInstanceTechLog
 
 #warning TODO: Add FlowTaskForUser 是否需要???

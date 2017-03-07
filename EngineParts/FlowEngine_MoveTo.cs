@@ -30,7 +30,7 @@ namespace EnouFlowEngine
 
         #region Check BizTimeStamp Valid
         if (!isBizTimeStampValid((DateTime)concreteMetaObj.bizTimeStamp,
-          req, flowInst, db, out failReason))
+          req, flowInst, out failReason))
         {
           updateReqProcessingResultInDB(reqInDb,
             EnumFlowActionRequestResultType.fail, failReason);
@@ -169,13 +169,7 @@ namespace EnouFlowEngine
         #endregion
 
         #region  update request
-        reqInDb.isProcessed = true;
-        reqInDb.finishTime = DateTime.Now;
-        reqInDb.resultType = EnumFlowActionRequestResultType.success;
-        if(reqInDb.flowInstance==null || reqInDb.flowInstanceGuid == null) { 
-          reqInDb.flowInstance = flowInst;
-          reqInDb.flowInstanceGuid = flowInst.guid;
-        }
+        updateRequestToSuccess(reqInDb, flowInst);
         #endregion
 
         #region  save all to db
