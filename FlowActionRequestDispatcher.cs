@@ -67,6 +67,14 @@ namespace EnouFlowEngine
           result = engine.processActionRequest((FlowActionRejectToStart)req);
           break;
 
+        case EnumFlowActionRequestType.inviteOther:
+          result = engine.processActionRequest((FlowActionInviteOther)req);
+          break;
+
+        case EnumFlowActionRequestType.inviteOtherFeedback:
+          result = engine.processActionRequest((FlowActionInviteOtherFeedback)req);
+          break;
+
         default:
           throw new Exception(req.requestType.ToString() + 
             " of EnumFlowActionRequestType not implemented !");

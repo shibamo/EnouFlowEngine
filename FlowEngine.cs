@@ -95,7 +95,11 @@ namespace EnouFlowEngine
       tasks.ForEach(t => {
         if (t.userId != actionUserId)
         {
-          t.taskState = EnumFlowTaskState.obsoleted;
+          // 其他用户已删除该任务或是已完成的邀请提供处理意见的任务,不需要标记为过期
+          if (t.taskState!= EnumFlowTaskState.deletedByUser && t.taskState!= EnumFlowTaskState.done) 
+          { 
+            t.taskState = EnumFlowTaskState.obsoleted;
+          }
         }
         else
         {

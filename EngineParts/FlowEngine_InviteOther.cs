@@ -14,7 +14,7 @@ namespace EnouFlowEngine
 {
   public partial class FlowEngine
   {
-    public FlowActionInviteOtherResult // moveTo
+    public FlowActionInviteOtherResult // inviteOther = More approval
       processActionRequest(FlowActionInviteOther req)
     {
       var concreteMetaObj = req.concreteMetaObj;
@@ -41,17 +41,23 @@ namespace EnouFlowEngine
         }
         #endregion
 
-        #region Decide List<UserDTO>, use the parameters of request
+        #region Decide List<UserDTO>
+        //use the parameters of request
         List<UserDTO> taskUsers = new List<UserDTO>();
         taskUsers = FlowTemplateDefHelper.getUserDTOsFromPaticipantList(req.roles);
         #endregion
 
         #region  add the invitation task for users: FlowTaskForUser
-        taskUsers.ForEach(user => addFlowTaskForUser(
-          db, user, flowInst,EnumFlowTaskType.invitation));
+        taskUsers.ForEach(user => {
+          var task = addFlowTaskForUser(
+            db, user, flowInst, EnumFlowTaskType.invitation);
+          // 邀请他人提供意见需要设置本身任务的FlowTaskForUserId用于对应跟踪
+          task.relativeFlowTaskForUserId = req.relativeFlowTaskForUserId;
+        });
         #endregion
 
-        #region  write 3 type logs: FlowInstanceFriendlyLog & FlowInstanceTechLog
+        #region  write 3 type logs
+        // FlowInstanceFriendlyLog & FlowInstanceTechLog
         var friendlyLog = db.flowFriendlyLogs.Create();
         friendlyLog.flowInstance = flowInst;
         friendlyLog.flowInstanceGuid = flowInst.guid;
