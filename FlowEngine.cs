@@ -72,7 +72,7 @@ namespace EnouFlowEngine
 
       task.userId = user.userId;
       task.userGuid = user.guid;
-      task.flowInstance = flowInst;
+      task.FlowInstance = flowInst;
       task.bizDocumentGuid = flowInst.bizDocumentGuid;
       task.bizDocumentTypeCode = flowInst.bizDocumentTypeCode;
       task.bizTimeStamp = flowInst.bizTimeStamp;
@@ -88,7 +88,7 @@ namespace EnouFlowEngine
       string currentActivityGuid,FlowInstance flowInst)
     {
       var tasks = db.flowTaskForUsers.Where(t =>
-        t.flowInstance.flowInstanceId == flowInst.flowInstanceId && 
+        t.FlowInstance.flowInstanceId == flowInst.flowInstanceId && 
         t.bizTimeStamp == bizTimeStamp && 
         t.currentActivityGuid == currentActivityGuid).ToList();
 
