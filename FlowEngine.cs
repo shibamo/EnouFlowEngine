@@ -85,7 +85,7 @@ namespace EnouFlowEngine
 
     private void updateTaskForUserStatesAfterAction(EnouFlowInstanceContext db,
       int actionUserId, DateTime bizTimeStamp, DateTime newBizTimeStamp,
-      string currentActivityGuid,FlowInstance flowInst)
+      string currentActivityGuid,FlowInstance flowInst, FlowActionRequest reqInDb)
     {
       var tasks = db.flowTaskForUsers.Where(t =>
         t.FlowInstance.flowInstanceId == flowInst.flowInstanceId && 
@@ -105,6 +105,7 @@ namespace EnouFlowEngine
         {
           t.finishTime = newBizTimeStamp;
           t.taskState = EnumFlowTaskState.done;
+          t.FlowActionRequest = reqInDb;
         }
       });
 

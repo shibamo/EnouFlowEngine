@@ -112,7 +112,7 @@ namespace EnouFlowEngine
         #region  update tasks for user status like taskState,finishTime
         updateTaskForUserStatesAfterAction(db, (int)concreteMetaObj.userId,
           originBizTimeStamp, newBizTimeStamp,
-          flowInst.previousActivityGuid, flowInst);
+          flowInst.previousActivityGuid, flowInst, reqInDb);
         #endregion
 
         #region  add task for users: FlowTaskForUser
