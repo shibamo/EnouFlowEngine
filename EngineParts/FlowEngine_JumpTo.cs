@@ -14,6 +14,7 @@ namespace EnouFlowEngine
 {
   public partial class FlowEngine
   {
+    public FlowActionJumpToResult // jumpTo
     processActionRequest(FlowActionJumpTo req)
     {
       var concreteMetaObj = req.concreteMetaObj;
