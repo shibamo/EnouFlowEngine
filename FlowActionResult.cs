@@ -125,12 +125,23 @@ namespace EnouFlowEngine
     {
     }
   }
+  public class FlowActionJumpToResult : FlowActionResult
+  {
+    public FlowActionJumpToResult(int flowActionRequestId,
+    string clientRequestGuid,
+    FlowInstance flowInstance,
+    bool succeed = true, string failReason = null)
+        : base(flowActionRequestId, clientRequestGuid, 
+            EnumFlowActionRequestType.moveTo, flowInstance 
+            ,succeed, failReason)
+      {
+      }
+  }
 
   public class FlowActionHoldUntilResult { }
 
   public class FlowActionClawbackResult { }
 
-  public class FlowActionJumpToResult { }
 
   public class FlowRevokeTakeResult { }
 
