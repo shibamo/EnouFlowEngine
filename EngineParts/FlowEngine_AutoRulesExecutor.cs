@@ -188,13 +188,4 @@ namespace EnouFlowEngine
       return temp;
     }
   }
-
-  public sealed class DictionaryContext
-  {
-    public DictionaryContext()
-    {
-      globals = new Dictionary<string, object>();
-    }
-    public Dictionary<string, object> globals { get; }
-  }
 }

@@ -69,7 +69,8 @@ namespace EnouFlowEngine
 
         #region Decide activity owners/ List<UserDTO>
         List<UserDTO> taskUsers = new List<UserDTO>();
-        taskUsers = FlowTemplateDefHelper.getUserDTOsFromPaticipantList(req.roles);
+        // taskUsers = FlowTemplateDefHelper.getUserDTOsFromPaticipantList(req.roles);
+        taskUsers = getUserDTOsFromPaticipantList(req.roles, flowInst);
 
         if (taskUsers.Count() == 0)
         {// 如果没有直接指定用户, 则根据流程实例的creatorId,将任务指派给流程实例的创建者

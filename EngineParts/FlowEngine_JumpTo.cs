@@ -78,7 +78,8 @@ namespace EnouFlowEngine
           case ActivityTypeString.standard_Start: // 下面这三类目标活动状态需要设置activity owner
           case ActivityTypeString.standard_SingleHuman:
           case ActivityTypeString.standard_MultiHuman:
-            taskUsers = FlowTemplateDefHelper.getUserDTOsFromPaticipantList(req.roles);
+            // taskUsers = FlowTemplateDefHelper.getUserDTOsFromPaticipantList(req.roles);
+            taskUsers = getUserDTOsFromPaticipantList(req.roles, flowInst);
 
             if (taskUsers.Count() == 0) // 如果参与活动的用户数为0则出错
             {

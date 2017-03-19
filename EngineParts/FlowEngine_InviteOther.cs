@@ -44,7 +44,8 @@ namespace EnouFlowEngine
         #region Decide List<UserDTO>
         //use the parameters of request
         List<UserDTO> taskUsers = new List<UserDTO>();
-        taskUsers = FlowTemplateDefHelper.getUserDTOsFromPaticipantList(req.roles);
+        // taskUsers = FlowTemplateDefHelper.getUserDTOsFromPaticipantList(req.roles);
+        taskUsers = getUserDTOsFromPaticipantList(req.roles, flowInst);
         #endregion
 
         #region  add the invitation task for users: FlowTaskForUser
