@@ -19,6 +19,9 @@ namespace EnouFlowEngine
     {
       using (var db = new EnouFlowInstanceContext())
       {
+        string failReason;
+        var reqInDb = getReqInDB(req.flowActionRequestId, db);
+
         var flowInst = db.flowInstances.Create();
         flowInst.flowTemplateId = req.concreteMetaObj.flowTemplateId;
         flowInst.flowTemplateJson = FlowTemplateDBHelper.getFlowTemplate(
@@ -27,7 +30,8 @@ namespace EnouFlowEngine
           flowInst.flowTemplateJson);
         flowInst.creatorId = req.concreteMetaObj.userId;
         flowInst.code = req.concreteMetaObj.code;
-        flowInst.processingState = EnumFlowInstanceProcessingState.waitingActionRequest;
+        flowInst.processingState = EnumFlowInstanceProcessingState.
+          waitingActionRequest;
         flowInst.lifeState = EnumFlowInstanceLifeState.start;
         // 此处TimeStamp不能直接取Now, 因为启动流程时会几乎同时生成两个
         // ActionRequest, 否则第二个ActionRequest的bizTimeStamp就会马上过期
@@ -42,19 +46,35 @@ namespace EnouFlowEngine
 
         db.flowInstances.Add(flowInst);
 
-        // 新建的流程需要回填对应的处理请求对象关于流程实例的信息, 由下面updateRequestToSuccess取代
-        var reqInDb = getReqInDB(req.flowActionRequestId, db);
-        //reqInDb.flowInstance = flowInst;
-        //reqInDb.flowInstanceGuid = flowInst.guid;
-        //updateReqProcessingResultInDB(reqInDb,
-        //  EnumFlowActionRequestResultType.success);
+        #region 如果需要, 则Add FlowTaskForUser 
+        List<UserDTO> taskUsers = new List<UserDTO>();
+        if (req.needGenerateTaskForUser)
+        {
+          taskUsers = getUserDTOsFromPaticipantList(req.roles, flowInst);
+
+          if (taskUsers.Count() == 0) // 如果参与活动的用户数为0则出错
+          {
+            failReason = $"无法找到参与活动'{flowInst.currentActivityName}'" +
+              $"的用户({req.roles.ToString()}).";
+
+            updateReqProcessingResultInDB(reqInDb,
+              EnumFlowActionRequestResultType.fail, failReason);
+            db.SaveChanges();
+
+            return new FlowActionStartResult(req.flowActionRequestId,
+             req.clientRequestGuid, flowInst, false, failReason);
+          }
+        }
+        #endregion
+
+        // 新建的流程需要回填对应的处理请求对象关于流程实例的信息, 
+        // 由下面updateRequestToSuccess完成
         #region  update request
         updateRequestToSuccess(reqInDb, flowInst);
         #endregion
 
-#warning TODO: Add FlowInstanceFriendlyLog & FlowInstanceTechLog
 
-#warning TODO: Add FlowTaskForUser 是否需要???
+#warning TODO: Add FlowInstanceFriendlyLog & FlowInstanceTechLog
 
         db.SaveChanges();
 
