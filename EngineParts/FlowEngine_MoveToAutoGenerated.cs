@@ -99,7 +99,7 @@ namespace EnouFlowEngine
             if (taskUsers.Count() == 0) // 如果参与活动的用户数为0则出错
             {
               failReason = $"无法找到参与活动'{from_to_conn.Item2.name}'" +
-                $"的用户({req.concreteMetaObj.roles}).";
+                $"的用户({req.roles.ToString()}).";
 
               updateReqProcessingResultInDB(reqInDb,
                 EnumFlowActionRequestResultType.fail, failReason);

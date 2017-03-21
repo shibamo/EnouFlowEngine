@@ -87,7 +87,7 @@ namespace EnouFlowEngine
         if (taskUsers.Count() == 0) // 如果参与活动的用户数为0则出错
         {
           failReason = $@"无法找到参与活动'{destNode.name}'的用户" +
-                        $@"({ req.concreteMetaObj.roles}). (FlowActionRejectToStartResult)";
+                        $@"({ req.roles.ToString()}). (FlowActionRejectToStartResult)";
 
           updateReqProcessingResultInDB(reqInDb,
             EnumFlowActionRequestResultType.fail, failReason);
