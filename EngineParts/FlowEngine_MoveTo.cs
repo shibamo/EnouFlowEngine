@@ -92,7 +92,6 @@ namespace EnouFlowEngine
           case ActivityTypeString.standard_Start: // 下面这三类目标活动状态需要设置activity owner
           case ActivityTypeString.standard_SingleHuman:
           case ActivityTypeString.standard_MultiHuman:
-            // taskUsers = FlowTemplateDefHelper.getUserDTOsFromPaticipantList(req.roles);
             taskUsers = getUserDTOsFromPaticipantList(req.roles, flowInst);
 
             if (taskUsers.Count() == 0) // 如果参与活动的用户数为0则出错
@@ -150,7 +149,7 @@ namespace EnouFlowEngine
 
         #endregion
 
-        #region  update tasks for user status like taskState,finishTime
+        #region  update tasks for user status like taskState,finishTime, delegatee
         updateTaskForUserStatesAfterAction(db, (int)concreteMetaObj.userId,
           originBizTimeStamp, bizTimeStampToUse,
           flowInst.previousActivityGuid, flowInst, reqInDb);
@@ -161,11 +160,6 @@ namespace EnouFlowEngine
         #endregion
 
         #region  write 3 type logs: FlowInstanceFriendlyLog & FlowInstanceTechLog
-        var friendlyLog = db.flowFriendlyLogs.Create();
-        friendlyLog.flowInstance = flowInst;
-        friendlyLog.flowInstanceGuid = flowInst.guid;
-        friendlyLog.flowActionRequestId = req.flowActionRequestId;
-        db.flowFriendlyLogs.Add(friendlyLog);
 #warning TODO: another 2 type logs
         #endregion
 

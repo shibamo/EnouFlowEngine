@@ -112,6 +112,8 @@ namespace EnouFlowEngine
           t.finishTime = newBizTimeStamp;
           t.taskState = EnumFlowTaskState.done;
           t.FlowActionRequest = reqInDb;
+          t.delegateeUserId = reqInDb.delegateeUserId; // 有可能是被任务代理人完成
+          t.delegateeUserGuid = reqInDb.delegateeUserGuid;
         }
       });
 
@@ -261,6 +263,34 @@ namespace EnouFlowEngine
         return null;
       }
       #endregion
+    }
+
+    private static void addFlowInstanceFriendlyLog(
+      FlowInstance flowInstance, int flowActionRequestId,
+      string currentActivityName, int paticipantUserId,
+      int? delegateeUserId, string actionName, 
+      string paticipantMemo, EnouFlowInstanceContext db)
+    {
+      var log = db.flowFriendlyLogs.Create();
+
+      log.FlowInstance = flowInstance;
+      log.flowActionRequestId = flowActionRequestId;
+      log.currentActivityName = currentActivityName;
+      var paticipant = OrgMgmtDBHelper.getUserDTO(
+        paticipantUserId);
+      log.paticipantName = paticipant.name + 
+        paticipant.englishName==null? "" : "-" + paticipant.englishName;
+      if (delegateeUserId.HasValue)
+      {
+        var delegatee = OrgMgmtDBHelper.getUserDTO(
+        delegateeUserId.Value);
+        log.delegateeName = delegatee.name +
+          delegatee.englishName == null ? "" : "-" + delegatee.englishName;
+      }
+      log.actionName = actionName;
+      log.paticipantMemo = paticipantMemo;
+
+      db.flowFriendlyLogs.Add(log);
     }
 
   }

@@ -110,7 +110,7 @@ namespace EnouFlowEngine
         // updateBizDataPayloadJsonOfFlowInst(flowInst, req);
         #endregion
 
-        #region  update tasks for user status like taskState,finishTime
+        #region  update tasks for user status like taskState,finishTime, delegatee
         updateTaskForUserStatesAfterAction(db, (int)concreteMetaObj.userId,
           originBizTimeStamp, newBizTimeStamp,
           flowInst.previousActivityGuid, flowInst, reqInDb);
@@ -121,11 +121,6 @@ namespace EnouFlowEngine
         #endregion
 
         #region  write 3 type logs: FlowInstanceFriendlyLog & FlowInstanceTechLog
-        var friendlyLog = db.flowFriendlyLogs.Create();
-        friendlyLog.flowInstance = flowInst;
-        friendlyLog.flowInstanceGuid = flowInst.guid;
-        friendlyLog.flowActionRequestId = req.flowActionRequestId;
-        db.flowFriendlyLogs.Add(friendlyLog);
 #warning TODO: another 2 type logs
         #endregion
 

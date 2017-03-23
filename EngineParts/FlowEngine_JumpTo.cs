@@ -147,11 +147,6 @@ namespace EnouFlowEngine
         #endregion
 
         #region  write 3 type logs: FlowInstanceFriendlyLog & FlowInstanceTechLog
-        var friendlyLog = db.flowFriendlyLogs.Create();
-        friendlyLog.flowInstance = flowInst;
-        friendlyLog.flowInstanceGuid = flowInst.guid;
-        friendlyLog.flowActionRequestId = req.flowActionRequestId;
-        db.flowFriendlyLogs.Add(friendlyLog);
 #warning TODO: another 2 type logs
         #endregion
 
