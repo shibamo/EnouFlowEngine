@@ -279,13 +279,13 @@ namespace EnouFlowEngine
       var paticipant = OrgMgmtDBHelper.getUserDTO(
         paticipantUserId);
       log.paticipantName = paticipant.name + 
-        paticipant.englishName==null? "" : "-" + paticipant.englishName;
+        (paticipant.englishName==null? "" : "/" + paticipant.englishName);
       if (delegateeUserId.HasValue)
       {
         var delegatee = OrgMgmtDBHelper.getUserDTO(
         delegateeUserId.Value);
         log.delegateeName = delegatee.name +
-          delegatee.englishName == null ? "" : "-" + delegatee.englishName;
+          (delegatee.englishName == null ? "" : "/" + delegatee.englishName);
       }
       log.actionName = actionName;
       log.paticipantMemo = paticipantMemo;

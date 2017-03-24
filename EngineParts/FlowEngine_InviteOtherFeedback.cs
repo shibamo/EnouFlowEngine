@@ -99,6 +99,10 @@ namespace EnouFlowEngine
         #endregion
 
         #region  write 3 type logs
+        addFlowInstanceFriendlyLog(
+          flowInst, reqInDb.flowActionRequestId, flowInst.currentActivityName,
+          reqInDb.userId.Value, reqInDb.delegateeUserId,
+          "意见征询答复/Opinions invited", req.userMemo, db);
 #warning TODO: another 2 type logs
         #endregion
 

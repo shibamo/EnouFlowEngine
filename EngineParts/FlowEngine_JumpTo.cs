@@ -147,6 +147,10 @@ namespace EnouFlowEngine
         #endregion
 
         #region  write 3 type logs: FlowInstanceFriendlyLog & FlowInstanceTechLog
+        addFlowInstanceFriendlyLog(
+          flowInst, reqInDb.flowActionRequestId, flowInst.previousActivityName,
+          reqInDb.userId.Value, reqInDb.delegateeUserId,
+          "跳转/Jump", req.userMemo, db);
 #warning TODO: another 2 type logs
         #endregion
 

@@ -75,6 +75,10 @@ namespace EnouFlowEngine
 
 
 #warning TODO: Add FlowInstanceFriendlyLog & FlowInstanceTechLog
+        addFlowInstanceFriendlyLog(
+          flowInst, reqInDb.flowActionRequestId, flowInst.previousActivityName,
+          reqInDb.userId.Value, reqInDb.delegateeUserId,
+          "提交(开始)/Submit(Start)", req.userMemo, db);
 
         db.SaveChanges();
 

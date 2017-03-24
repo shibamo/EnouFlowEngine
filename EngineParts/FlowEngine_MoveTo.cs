@@ -159,7 +159,11 @@ namespace EnouFlowEngine
         taskUsers.ForEach(user => addFlowTaskForUser(db, user, flowInst));
         #endregion
 
-        #region  write 3 type logs: FlowInstanceFriendlyLog & FlowInstanceTechLog
+        #region  write 3 type logs
+        addFlowInstanceFriendlyLog(
+          flowInst, reqInDb.flowActionRequestId, flowInst.previousActivityName, 
+          reqInDb.userId.Value, reqInDb.delegateeUserId,
+          from_to_conn.Item3.name, req.userMemo, db);
 #warning TODO: another 2 type logs
         #endregion
 
