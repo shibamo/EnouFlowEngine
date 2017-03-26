@@ -24,7 +24,6 @@ namespace EnouFlowEngine
         var flowInst = getFlowInstance(db, req.flowInstanceId, req.bizDocumentGuid);
 
         var reqInDb = getReqInDB(req.flowActionRequestId, db);
-        Tuple<ActivityNode, ActivityNode, ActivityConnection> from_to_conn;
         string failReason;
         DateTime bizTimeStampToUse = DateTime.Now;
 
