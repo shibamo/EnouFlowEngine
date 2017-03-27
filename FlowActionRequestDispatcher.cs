@@ -79,6 +79,10 @@ namespace EnouFlowEngine
           result = engine.processActionRequest((FlowActionJumpTo)req);
           break;
 
+        case EnumFlowActionRequestType.terminate:
+          result = engine.processActionRequest((FlowActionTerminate)req);
+          break;
+
         default:
           throw new Exception(req.requestType.ToString() + 
             " of EnumFlowActionRequestType not implemented !");

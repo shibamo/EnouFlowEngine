@@ -128,14 +128,26 @@ namespace EnouFlowEngine
   public class FlowActionJumpToResult : FlowActionResult
   {
     public FlowActionJumpToResult(int flowActionRequestId,
-    string clientRequestGuid,
-    FlowInstance flowInstance,
-    bool succeed = true, string failReason = null)
+      string clientRequestGuid,
+      FlowInstance flowInstance,
+      bool succeed = true, string failReason = null)
         : base(flowActionRequestId, clientRequestGuid, 
-            EnumFlowActionRequestType.moveTo, flowInstance 
+            EnumFlowActionRequestType.jumpTo, flowInstance 
             ,succeed, failReason)
-      {
-      }
+    {
+    }
+  }
+  public class FlowActionTerminateResult : FlowActionResult
+  {
+    public FlowActionTerminateResult(int flowActionRequestId,
+      string clientRequestGuid,
+      FlowInstance flowInstance,
+      bool succeed = true, string failReason = null)
+        : base(flowActionRequestId, clientRequestGuid, 
+            EnumFlowActionRequestType.terminate, flowInstance 
+            ,succeed, failReason)
+    {
+    }
   }
 
   public class FlowActionHoldUntilResult { }
@@ -145,7 +157,6 @@ namespace EnouFlowEngine
 
   public class FlowRevokeTakeResult { }
 
-  public class FlowActionTerminateResult { }
 
   public class FlowActionTakeoverResult { }
 
