@@ -175,7 +175,9 @@ namespace EnouFlowEngine
         var result = new List<UserDTO>();
         using (var db = new EnouFlowOrgMgmtContext())
         {
-          result.Add(OrgMgmtDBHelper.getUserDTO((int)paticipant.PaticipantObj.userId, db));
+          result.Add(
+            new UserHelper(db).getUserDTO(
+              (int)paticipant.PaticipantObj.userId));
         }
 
         return result;
@@ -185,7 +187,7 @@ namespace EnouFlowEngine
       {
         using (var db = new EnouFlowOrgMgmtContext())
         {
-          return OrgMgmtDBHelper.getUserDTOsOfRole((int)paticipant.PaticipantObj.roleId, db);
+          return new UserHelper(db).getUserDTOsOfRole((int)paticipant.PaticipantObj.roleId);
         }
       }
 
@@ -268,7 +270,7 @@ namespace EnouFlowEngine
     private static void addFlowInstanceFriendlyLog(
       FlowInstance flowInstance, int flowActionRequestId,
       string currentActivityName, int paticipantUserId,
-      int? delegateeUserId, string actionName, 
+      int? delegateeUserId, string actionName,
       string paticipantMemo, EnouFlowInstanceContext db)
     {
       var log = db.flowFriendlyLogs.Create();
@@ -276,16 +278,20 @@ namespace EnouFlowEngine
       log.FlowInstance = flowInstance;
       log.flowActionRequestId = flowActionRequestId;
       log.currentActivityName = currentActivityName;
-      var paticipant = OrgMgmtDBHelper.getUserDTO(
-        paticipantUserId);
-      log.paticipantName = paticipant.name + 
-        (paticipant.englishName==null? "" : "/" + paticipant.englishName);
-      if (delegateeUserId.HasValue)
+      using (var orgDb = new EnouFlowOrgMgmtContext())
       {
-        var delegatee = OrgMgmtDBHelper.getUserDTO(
-        delegateeUserId.Value);
-        log.delegateeName = delegatee.name +
-          (delegatee.englishName == null ? "" : "/" + delegatee.englishName);
+        UserHelper userHelper = new UserHelper(orgDb);
+
+        var paticipant = userHelper.getUserDTO(paticipantUserId);
+        log.paticipantName = paticipant.name +
+          (paticipant.englishName == null ? "" : "/" + paticipant.englishName);
+
+        if (delegateeUserId.HasValue)
+        {
+          var delegatee = userHelper.getUserDTO(delegateeUserId.Value);
+          log.delegateeName = delegatee.name +
+            (delegatee.englishName == null ? "" : "/" + delegatee.englishName);
+        }
       }
       log.actionName = actionName;
       log.paticipantMemo = paticipantMemo;

@@ -76,7 +76,7 @@ namespace EnouFlowEngine
         {// 如果没有直接指定用户, 则根据流程实例的creatorId,将任务指派给流程实例的创建者
           using (var orgDb = new EnouFlowOrgMgmtContext())
           {
-            var creator = OrgMgmtDBHelper.getUserDTO(flowInst.creatorId, orgDb);
+            var creator = new UserHelper(orgDb).getUserDTO(flowInst.creatorId);
             if (creator != null)
             {
               taskUsers.Add(creator);

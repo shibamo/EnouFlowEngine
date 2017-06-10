@@ -50,8 +50,9 @@ namespace EnouFlowEngine
           taskInviteOther.relativeFlowTaskForUserId);
         using (var orgDb = new EnouFlowOrgMgmtContext())
         {
-          taskUsers.Add(OrgMgmtDBHelper.getUserDTO(
-          flowTaskForUserOrigin.userId, orgDb));
+          taskUsers.Add(
+            new UserHelper(orgDb).getUserDTO(
+              flowTaskForUserOrigin.userId));
         }
         #endregion
 

@@ -217,8 +217,8 @@
     <Compile Include="EngineParts\Later\FlowEngine_Takeover.cs" />
     <Compile Include="EngineParts\Later\FlowEngine_RestartTo.cs" />
     <Compile Include="EngineParts\Later\FlowEngine_AdjustFlowTemplate.cs" />
-    <Compile Include="EngineParts\Later\FlowEngine_Urge.cs" />
-    <Compile Include="EngineParts\Next\FlowEngine_Impersonate.cs" />
+    <Compile Include="EngineParts\Next\FlowEngine_Urge.cs" />
+    <Compile Include="EngineParts\Later\FlowEngine_Impersonate.cs" />
     <Compile Include="EngineParts\Later\FlowEngine_Tpl.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
