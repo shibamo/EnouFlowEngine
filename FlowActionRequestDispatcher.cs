@@ -16,7 +16,7 @@ namespace EnouFlowEngine
   {
     public FlowActionResult processNextAction()
     {
-      var req = FlowInstanceHelper.GetFirtUnprocessedRequest();
+      var req = FlowActionHelper.GetFirstUnprocessedRequest();
       if (req == null) return null;
 
       return processAction(req);
@@ -25,7 +25,7 @@ namespace EnouFlowEngine
     public FlowActionResult processNextActionOfSpecifiedInstance(
       int flowInstanceId, EnumFlowActionRequestType[] flowActionRequestTypes)
     {
-      var req = FlowInstanceHelper.GetFirtUnprocessedRequest(
+      var req = FlowActionHelper.GetFirstUnprocessedRequest(
         flowInstanceId, flowActionRequestTypes);
       if (req == null) return null;
 
@@ -35,7 +35,7 @@ namespace EnouFlowEngine
     public FlowActionResult processSpecifiedAction(
       int flowActionRequestId, bool onlyNotProcessed = true)
     {
-      var req = FlowInstanceHelper.GetFlowAction(
+      var req = FlowActionHelper.GetFlowAction(
         flowActionRequestId, onlyNotProcessed);
       if (req == null) return null;
 
